@@ -1,1 +1,4 @@
 .vscode
+.env
+.~lock.jobs.csv#
+__pycache__
