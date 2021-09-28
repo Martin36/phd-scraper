@@ -22,16 +22,16 @@ def check_for_new_jobs(old_jobs_df, scraped_jobs_df):
 if __name__ == "__main__":
     scraper = Scraper()
     # TODO: add check for if the jobs.csv file does not exist
-    old_jobs_df = pd.read_csv("jobs.csv")
+    jobs_file = "/home/martin/phd-scraper/jobs.csv"
+    old_jobs_df = pd.read_csv(jobs_file)
     scraped_jobs_df = scraper.scrape()
     new_jobs = check_for_new_jobs(old_jobs_df, scraped_jobs_df)
     if len(new_jobs) > 0:
         send_email(new_jobs)
         # Store the scraped jobs in a csv file
-        out_file = "jobs.csv"
-        scraped_jobs_df.to_csv(out_file)
+        scraped_jobs_df.to_csv(jobs_file)
         print(f"{len(new_jobs)} new jobs found")
-        print(f"Stored scraped jobs in '{out_file}'")
+        print(f"Stored scraped jobs in '{jobs_file}'")
     else:
         print("No new jobs found")
     
