@@ -7,13 +7,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def send_email(jobs: List[Job]):
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    sender_email = os.getenv("SENDER_EMAIL")
-    receiver_email = os.getenv("RECIEVER_EMAIL")
-    password = os.getenv("EMAIL_PASS")
-    
+port = 465  # For SSL
+smtp_server = "smtp.gmail.com"
+sender_email = os.getenv("SENDER_EMAIL")
+receiver_email = os.getenv("RECIEVER_EMAIL")
+password = os.getenv("EMAIL_PASS")
+
+def send_email(jobs: List[Job]):    
     msg_text = ""
     for job in jobs:
         msg_text += "\n"
@@ -36,4 +36,19 @@ def send_email(jobs: List[Job]):
         server.login(sender_email, password)
         server.send_message(msg)
 
-        
+def send_no_new_jobs_found_email():
+    msg_text = "No new jobs found"
+
+    text_type = "plain"
+    msg = MIMEText(msg_text, text_type, "utf-8")
+    msg["Subject"] = "No new jobs found"
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
+
+    # Create a secure SSL context
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.send_message(msg)
+    

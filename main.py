@@ -1,4 +1,4 @@
-from send_email import send_email
+from send_email import send_email, send_no_new_jobs_found_email
 from structs import Job
 import pandas as pd
 from scrape import Scraper
@@ -33,6 +33,7 @@ if __name__ == "__main__":
         print(f"{len(new_jobs)} new jobs found")
         print(f"Stored scraped jobs in '{jobs_file}'")
     else:
+        send_no_new_jobs_found_email()
         print("No new jobs found")
     
     
